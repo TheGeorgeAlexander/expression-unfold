@@ -1,6 +1,6 @@
 # Compiler and compiler flags
 GCC = g++
-FLAGS = -std=c++11 -Wall -Wextra -Wpedantic -Werror -O3 -Iinclude
+FLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Werror -O3 -Iinclude
 
 # Source and build directories
 SRC = src
