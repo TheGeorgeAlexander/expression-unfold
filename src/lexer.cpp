@@ -7,18 +7,8 @@
 
 
 
-static const std::pair<std::regex, Token::Type> TOKEN_DEFINITIONS[] = {
-    createTokenDefinition(R"(\s+)",           Token::Type::WHITESPACE),
-    createTokenDefinition(R"(\+)",            Token::Type::ADDITION),
-    createTokenDefinition(R"(-)",             Token::Type::SUBTRACTION),
-    createTokenDefinition(R"(\*)",            Token::Type::MULTIPLICATION),
-    createTokenDefinition(R"(/)",             Token::Type::DIVISION),
-    createTokenDefinition(R"(\()",            Token::Type::BRACKET_OPEN),
-    createTokenDefinition(R"(\))",            Token::Type::BRACKET_CLOSE),
-    createTokenDefinition(R"(,)",             Token::Type::COMMA),
-    createTokenDefinition(R"(\d+(?:\.\d+)?)", Token::Type::NUMBER),
-    createTokenDefinition(R"([a-z_]\w*)",     Token::Type::IDENTIFIER)
-};
+Token::Token(Token::Type type, const std::string &value, size_t line, size_t column)
+    : type(type), value(value), line(line), column(column) { }
 
 
 std::pair<std::regex, Token::Type> createTokenDefinition(std::string const &regex, Token::Type const type) {
@@ -27,6 +17,19 @@ std::pair<std::regex, Token::Type> createTokenDefinition(std::string const &rege
 
 
 void tokenize(const std::string &text, std::vector<Token> &tokens) {
+    std::pair<std::regex, Token::Type> TOKEN_DEFINITIONS[] = {
+        createTokenDefinition(R"(\s+)",           Token::Type::WHITESPACE),
+        createTokenDefinition(R"(\+)",            Token::Type::ADDITION),
+        createTokenDefinition(R"(-)",             Token::Type::SUBTRACTION),
+        createTokenDefinition(R"(\*)",            Token::Type::MULTIPLICATION),
+        createTokenDefinition(R"(/)",             Token::Type::DIVISION),
+        createTokenDefinition(R"(\()",            Token::Type::BRACKET_OPEN),
+        createTokenDefinition(R"(\))",            Token::Type::BRACKET_CLOSE),
+        createTokenDefinition(R"(,)",             Token::Type::COMMA),
+        createTokenDefinition(R"(\d+(?:\.\d+)?)", Token::Type::NUMBER),
+        createTokenDefinition(R"([a-z_]\w*)",     Token::Type::IDENTIFIER)
+    };
+
     std::size_t line = 1, column = 1, pos = 0;
     std::string_view input = text;
 

@@ -24,8 +24,7 @@ public:
     const size_t line;
     const size_t column;
 
-    Token(Token::Type type, const std::string &value, size_t line, size_t column)
-        : type(type), value(value), line(line), column(column) {}
+    Token(Token::Type type, const std::string &value, size_t line, size_t column);
 };
 
 
