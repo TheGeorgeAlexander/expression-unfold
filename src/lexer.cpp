@@ -72,8 +72,7 @@ void tokenize(const std::string &text, std::vector<Token> &tokens) {
 
         // Nothing matched? Error!
         if(!matched) {
-            std::cerr << "Unknown token at line " << line << ", column " << column << "\n";
-            exit(1);
+            throw std::runtime_error("Unknown token at line " + std::to_string(line) + ", column " + std::to_string(column));
         }
     }
 }

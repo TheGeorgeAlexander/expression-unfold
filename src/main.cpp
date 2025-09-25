@@ -1,36 +1,34 @@
 #include <iostream>
 #include <string>
 #include  <fstream>
-#include <sstream>
 #include "lexer.hpp"
 
 
 
-std::string readFile(const std::string &filename) {
-    std::stringstream fileContent;
-
+std::string readFile(const std::string& filename) {
     std::ifstream file(filename);
-    if(file.is_open()) {
-        fileContent << file.rdbuf();
-    } else {
-        std::cerr << "Could not open file " << filename << "!\n";
-        exit(1);
+    if (!file) {
+        throw std::runtime_error("Could not open file: " + filename);
     }
 
-    return fileContent.str();
+    return std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 }
 
 
 int main(int argc, char *argv[]) {
-    if(argc != 2) {
-        std::cout << "Usage: ./unfold <FILENAME>\n";
+    // Get the expression
+    std::string expression;
+    if(argc == 1) {
+        std::cout << "Expression: ";
+        getline(std::cin, expression);
+    } else if(argc == 2) {
+        expression = readFile(std::string(argv[1]));
+    } else {
+        std::cout << "Two options:\n";
+        std::cout << "  ./unfold             Manually enter an expression.\n";
+        std::cout << "  ./unfold <FILENAME>  Automatically read the expression from a text file.\n";
         return 1;
     }
-
-    // Get the expression
-    std::string expression = readFile(std::string(argv[1]));
-
-    std::cout << "expression: " << expression << "\n";
 
     // Create tokens from the input
     std::vector<Token> tokens;
