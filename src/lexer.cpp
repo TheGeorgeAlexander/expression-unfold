@@ -45,7 +45,7 @@ void tokenize(const std::string &text, std::vector<Token> &tokens) {
                 const std::string matchStr = match.str(0);
                 const Token::Type type = def.second;
 
-                // Whitespace or comment might span multiple lines
+                // Whitespace might span multiple lines
                 if(type == Token::Type::WHITESPACE) {
                     for(char c : matchStr) {
                         if(c == '\n') {
