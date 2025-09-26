@@ -28,8 +28,8 @@ int main(int argc, char *argv[]) {
         expression = readFile(std::string(argv[1]));
     } else {
         std::cout << "Two options:\n";
-        std::cout << "  ./unfold             Manually enter an expression.\n";
-        std::cout << "  ./unfold <FILENAME>  Automatically read the expression from a text file.\n";
+        std::cout << "  ./unfold             Enter an expression manually.\n";
+        std::cout << "  ./unfold <FILENAME>  Read the expression from a text file.\n";
         return 1;
     }
 
