@@ -10,10 +10,7 @@ class Token {
 public:
     const enum class Type {
         WHITESPACE,
-        ADDITION,
-        SUBTRACTION,
-        MULTIPLICATION,
-        DIVISION,
+        OPERATOR,
         BRACKET_OPEN,
         BRACKET_CLOSE,
         COMMA,
@@ -21,10 +18,10 @@ public:
         IDENTIFIER
     } type;
     const std::string value;
-    const size_t line;
-    const size_t column;
+    const std::size_t line;
+    const std::size_t column;
 
-    Token(Token::Type type, const std::string &value, size_t line, size_t column);
+    Token(Token::Type type, const std::string &value, std::size_t line, std::size_t column);
 };
 
 

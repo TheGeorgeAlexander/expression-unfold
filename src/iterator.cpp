@@ -12,7 +12,7 @@ Token TokenIterator::previous() const {
 }
 
 
-Token TokenIterator::lookAhead(const size_t distance) const {
+Token TokenIterator::lookAhead(const std::size_t distance) const {
     errorIfOutOfBounds(distance - 1, "lookAhead");
     return array[index + (distance - 1)];
 }

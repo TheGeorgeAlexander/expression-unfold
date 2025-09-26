@@ -10,7 +10,7 @@ public:
     TokenIterator(const std::vector<Token> &arr);
 
     Token previous() const;
-    Token lookAhead(const size_t distance = 1) const;
+    Token lookAhead(const std::size_t distance = 1) const;
     Token next();
 
 

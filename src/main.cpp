@@ -40,17 +40,8 @@ int main(int argc, char *argv[]) {
             case Token::Type::WHITESPACE:
                 tokenType = "whitespace";
                 break;
-            case Token::Type::ADDITION:
-                tokenType = "addition";
-                break;
-            case Token::Type::SUBTRACTION:
-                tokenType = "subtraction";
-                break;
-            case Token::Type::MULTIPLICATION:
-                tokenType = "multiplication";
-                break;
-            case Token::Type::DIVISION:
-                tokenType = "division";
+            case Token::Type::OPERATOR:
+                tokenType = "operator";
                 break;
             case Token::Type::BRACKET_OPEN:
                 tokenType = "bracket open";
