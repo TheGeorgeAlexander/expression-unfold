@@ -12,6 +12,7 @@ public:
     Token previous() const;
     Token lookAhead(const std::size_t distance = 1) const;
     Token next();
+    bool isAtEnd();
 
 
 private:

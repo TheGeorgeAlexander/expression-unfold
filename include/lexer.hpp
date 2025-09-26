@@ -8,7 +8,7 @@
 
 class Token {
 public:
-    const enum class Type {
+    enum class Type {
         WHITESPACE,
         OPERATOR,
         BRACKET_OPEN,
@@ -17,9 +17,9 @@ public:
         NUMBER,
         IDENTIFIER
     } type;
-    const std::string value;
-    const std::size_t line;
-    const std::size_t column;
+    std::string value;
+    std::size_t line;
+    std::size_t column;
 
     Token(Token::Type type, const std::string &value, std::size_t line, std::size_t column);
 };

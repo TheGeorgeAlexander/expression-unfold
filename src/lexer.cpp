@@ -19,7 +19,7 @@ std::pair<std::regex, Token::Type> createTokenDefinition(std::string const &rege
 void tokenize(const std::string &text, std::vector<Token> &tokens) {
     std::pair<std::regex, Token::Type> TOKEN_DEFINITIONS[] = {
         createTokenDefinition(R"(\s+)",           Token::Type::WHITESPACE),
-        createTokenDefinition(R"([+-*/])",        Token::Type::OPERATOR),
+        createTokenDefinition(R"([+\-*/])",        Token::Type::OPERATOR),
         createTokenDefinition(R"(\()",            Token::Type::BRACKET_OPEN),
         createTokenDefinition(R"(\))",            Token::Type::BRACKET_CLOSE),
         createTokenDefinition(R"(,)",             Token::Type::COMMA),

@@ -25,9 +25,15 @@ Token TokenIterator::next() {
 }
 
 
+bool TokenIterator::isAtEnd() {
+    return index >= array.size();
+}
+
+
 void TokenIterator::errorIfOutOfBounds(const int indexOffset, const std::string &name) const {
     std::size_t newIndex = index + indexOffset;
-    if(newIndex < 0 || newIndex >= array.size()) {
+    // Can't be below 0 because std::size_t is unsigned
+    if(newIndex >= array.size()) {
         throw std::runtime_error("Token iterator out of bounds trying to get " + name);
     }
 }
