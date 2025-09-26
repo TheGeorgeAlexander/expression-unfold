@@ -1,5 +1,6 @@
 #include "node.hpp"
 #include "lexer.hpp"
+#include <string>
 
 
 
@@ -11,6 +12,11 @@ Node::Node(const Token token)
     : token(token) { }
 
 
-Token Node::getToken() const {
-    return token;
+std::string Node::getValue() const {
+    return token.value;
+}
+
+
+Token::Type Node::getType() const {
+    return token.type;
 }

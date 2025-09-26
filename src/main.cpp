@@ -4,6 +4,7 @@
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "node.hpp"
+#include "codegen.hpp"
 
 
 
@@ -40,38 +41,8 @@ int main(int argc, char *argv[]) {
     Parser parser(tokens);
     Node root = parser.parse();
 
-    Token token = root.getToken();
-    std::string tokenType;
-    switch(token.type) {
-        case Token::Type::WHITESPACE:
-            tokenType = "whitespace";
-            break;
-        case Token::Type::OPERATOR:
-            tokenType = "operator";
-            break;
-        case Token::Type::BRACKET_OPEN:
-            tokenType = "bracket open";
-            break;
-        case Token::Type::BRACKET_CLOSE:
-            tokenType = "bracket close";
-            break;
-        case Token::Type::COMMA:
-            tokenType = "comma";
-            break;
-        case Token::Type::NUMBER:
-            tokenType = "number";
-            break;
-        case Token::Type::IDENTIFIER:
-            tokenType = "identifier";
-            break;
-        
-        default:
-            tokenType = "unknown";
-            break;
-    }
-    std::cout << "Parse tree root is " << tokenType << " '" << token.value << "' at line " << token.line << ", column " << token.column << "\n";
-
     // Walk through the tree and output the code
-    // TODO: ^^
+    CodeGenerator printer;
+    printer.printCode(root);
     return 0;
 }

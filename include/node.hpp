@@ -1,6 +1,8 @@
 #pragma once
 
 #include "lexer.hpp"
+#include <vector>
+#include <string>
 
 
 
@@ -11,7 +13,8 @@ public:
 
     std::vector<Node> children;
 
-    Token getToken() const;
+    std::string getValue() const;
+    Token::Type getType() const;
     
 
 private:
