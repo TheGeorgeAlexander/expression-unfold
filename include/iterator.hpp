@@ -9,12 +9,14 @@ class TokenIterator {
 public:
     TokenIterator(const std::vector<Token> &arr);
 
-    Token previous();
-    Token lookAhead();
+    Token previous() const;
+    Token lookAhead(const size_t distance = 1) const;
     Token next();
 
 
 private:
-    std::vector<Token> array;
+    const std::vector<Token> array;
     std::size_t index = 0;
+
+    void errorIfOutOfBounds(const int indexOffset, const std::string &name) const;
 };
