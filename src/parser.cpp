@@ -16,11 +16,16 @@ Node Parser::parse() {
 Node Parser::parseExpression() {
     Node expressionNode = parseTerm();
 
-    while(!iterator.isAtEnd() && iterator.lookAhead().type == Token::Type::OPERATOR) {
-        Node leftHandSide = expressionNode;
-        expressionNode = Node(iterator.next());
-        expressionNode.children.push_back(leftHandSide);
-        expressionNode.children.push_back(parseExpression());
+    while(!iterator.isAtEnd()) {
+        Token lookAhead = iterator.lookAhead();
+        if(lookAhead.type == Token::Type::OPERATOR && (lookAhead.value == "+" || lookAhead.value == "-")) {
+            Node leftHandSide = expressionNode;
+            expressionNode = Node(iterator.next());
+            expressionNode.children.push_back(leftHandSide);
+            expressionNode.children.push_back(parseTerm());
+        } else {
+            break;
+        }
     }
 
     return expressionNode;
@@ -28,6 +33,25 @@ Node Parser::parseExpression() {
 
 
 Node Parser::parseTerm() {
+    Node termNode = parseFactor();
+
+    while(!iterator.isAtEnd()) {
+        Token lookAhead = iterator.lookAhead();
+        if(lookAhead.type == Token::Type::OPERATOR && (lookAhead.value == "*" || lookAhead.value == "/")) {
+            Node leftHandSide = termNode;
+            termNode = Node(iterator.next());
+            termNode.children.push_back(leftHandSide);
+            termNode.children.push_back(parseFactor());
+        } else {
+            break;
+        }
+    }
+
+    return termNode;
+}
+
+
+Node Parser::parseFactor() {
     Token::Type lookAheadType = iterator.lookAhead().type;
 
     // An expression in brackets

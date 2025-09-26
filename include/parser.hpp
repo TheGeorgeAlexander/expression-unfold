@@ -17,6 +17,7 @@ private:
 
     Node parseExpression();
     Node parseTerm();
+    Node parseFactor();
     Node parseFunctionCall();
 
 
