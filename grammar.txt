@@ -9,6 +9,7 @@ term          ---> factor
                 |  factor "/" term
 
 factor        ---> NUMBER
+                |  "-" NUMBER
                 |  IDENTIFIER
                 |  function_call
                 |  "(" expression ")"

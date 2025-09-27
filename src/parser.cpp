@@ -72,7 +72,12 @@ Node Parser::parseFactor() {
     }
 
     // A number
-    return Node(consume(Token::Type::NUMBER));
+    bool negativeNum = iterator.match(Token::Type::OPERATOR, "-");
+    Token number = consume(Token::Type::NUMBER);
+    if(negativeNum) {
+        number.value = "-" + number.value;
+    }
+    return Node(number);
 }
 
 
