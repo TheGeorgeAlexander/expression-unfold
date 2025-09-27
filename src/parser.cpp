@@ -12,17 +12,8 @@ Parser::Parser(const std::vector<Token> &tokens)
 
 Node Parser::parse() {
     Node root = parseExpression();
-    consume(Token::Type::END_OF_INPUT);
+    iterator.matchOrError(Token::Type::END_OF_INPUT);
     return root;
-}
-
-
-Token Parser::consume(const Token::Type expectedType) {
-    Token consumed = iterator.next();
-    if(consumed.type != expectedType) {
-        throw std::runtime_error("Expected " + Token::typeString(expectedType) + " at " + Token::locationString(consumed) + " but got " + Token::typeString(consumed.type));
-    }
-    return consumed;
 }
 
 
@@ -58,7 +49,7 @@ Node Parser::parseFactor() {
     // An expression in brackets
     if(iterator.match(Token::Type::BRACKET_OPEN)) {
         Node expression = parseExpression();
-        consume(Token::Type::BRACKET_CLOSE);
+        iterator.matchOrError(Token::Type::BRACKET_CLOSE);
         return expression;
     }
 
@@ -73,7 +64,7 @@ Node Parser::parseFactor() {
 
     // A number
     bool negativeNum = iterator.match(Token::Type::OPERATOR, "-");
-    Token number = consume(Token::Type::NUMBER);
+    Token number = iterator.matchOrError(Token::Type::NUMBER);
     if(negativeNum) {
         number.value = "-" + number.value;
     }
@@ -89,7 +80,7 @@ Node Parser::parseFunctionCall() {
     while(iterator.match(Token::Type::COMMA)) {
         functionNode.children.push_back(parseExpression());
     }
-    consume(Token::Type::BRACKET_CLOSE);
+    iterator.matchOrError(Token::Type::BRACKET_CLOSE);
 
     return functionNode;
 }

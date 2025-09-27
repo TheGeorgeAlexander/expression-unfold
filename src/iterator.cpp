@@ -48,6 +48,15 @@ bool TokenIterator::match(Token::Type type, const std::string &value) {
 }
 
 
+Token TokenIterator::matchOrError(const Token::Type type, const std::string &value) {
+    Token token = lookAhead();
+    if(!match(type, value)) {
+        throw std::runtime_error("Expected " + Token::typeString(type) + " at " + Token::locationString(token) + " but got " + Token::typeString(token.type));
+    }
+    return token;
+}
+
+
 bool TokenIterator::check(Token::Type type, const std::string &value) {
     if(isAtEnd()) {
         return false;

@@ -14,8 +14,9 @@ public:
     Token next();
     bool isAtEnd();
 
-    bool match(Token::Type type, const std::string &value = "");
-    bool check(Token::Type type, const std::string &value = "");
+    bool match(const Token::Type type, const std::string &value = "");
+    Token matchOrError(const Token::Type type, const std::string &value = "");
+    bool check(const Token::Type type, const std::string &value = "");
 
 
 private:

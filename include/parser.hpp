@@ -16,8 +16,6 @@ public:
 private:
     TokenIterator iterator;
 
-    Token consume(const Token::Type expectedType);
-
     Node parseExpression();
     Node parseTerm();
     Node parseFactor();
