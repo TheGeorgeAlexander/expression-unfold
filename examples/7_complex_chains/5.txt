@@ -1,0 +1,29 @@
+pow(
+    max(
+        (a + b * (c - d / (e + f))) * g,
+        min(
+            sqrt(h + 3 * (i - j)),
+            log(k + exp(l / (m + n))),
+            randomFunc(
+                p, 
+                q + r * (s - t), 
+                customFunc1(u, v, w + customFunc2(x, y, z))
+            )
+        )
+    ) 
+    + (alpha / (beta - gamma) * (delta + epsilon)),
+    factorial(
+        theta + omega - sumFunc(phi, chi, psi / (rho + sigma))
+    )
+) 
+/ (
+    complexFunc(
+        tau * (upsilon - (phi + omega) / zeta),
+        nestedFunc1(
+            nestedFunc2(eta, theta + (iota - kappa)), 
+            lambda + mu * nu
+        ), 
+        pi + sqrt(xi + omicron * (pi - rho))
+    ) 
+    - (sigma + tau) * (upsilon / (phi - chi))
+)

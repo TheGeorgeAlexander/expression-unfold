@@ -1,0 +1,23 @@
+pow(
+    (
+        min(
+            absFunc(a2 - b2), 
+            cos(c2 + d2 * e2), 
+            sin(
+                f2 + g2 - (h2 / i2) 
+                + deepNest1(j2, k2, l2 + m2, deepNest2(n2))
+            )
+        ) 
+        * (o2 + p2 / q2)
+    ), 
+    randomFunc2(
+        r2, 
+        s2 * t2, 
+        complexNest3(u2, v2, w2 - x2, factorial(y2)), 
+        sumFunc2(z2, alpha2, beta2 + gamma2)
+    )
+) 
+/ (
+    theta2 + omega2 - (phi2 * chi2 / psi2) 
+    + log1(rho2 + sigma2, tau2 - upsilon2)
+)

@@ -1,0 +1,16 @@
+exp(
+    log(
+        tanh(
+            (x1 + pow(y1, z1 - w1)) / (a1 - b1 * (c1 + d1))
+        ) 
+        + sqrt(
+            randomFunc1(alpha1, beta1, gamma1 * delta1) 
+            - nested1(e1, f1 / (g1 + h1))
+        )
+    ) 
+    * (i1 - j1 + (k1 / l1))
+) 
++ max(
+    factorial(m1 + n1 - o1), 
+    sumFunc1(p1, q1, min(r1, s1, t1)), 
+    nested2(u1, v1 + w1 * x1, exp(y1 + z1)))

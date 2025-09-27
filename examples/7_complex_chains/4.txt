@@ -1,0 +1,30 @@
+sumMaster(
+    (
+        pow(
+            exp(a4 + b4 - c4), 
+            min(d4, e4 + f4 * g4)
+        ) 
+        + log(
+            h4 / i4 - j4 + randomNest1(k4, l4, m4 - n4)
+        )
+    ) 
+    * (
+        o4 + p4 - q4 * r4 
+        + nestedUltra(s4, t4, factorial(u4 + v4))
+    ), 
+    (
+        deepLayer1(
+            deepLayer2(
+                w4, 
+                x4 + deepLayer3(y4, z4, alpha4 / beta4)
+            ), 
+            gamma4 * delta4 + omega4
+        )
+    ), 
+    randomDeep(
+        phi4, 
+        chi4 / psi4, 
+        rho4 + exp(sigma4 - tau4), 
+        upsilon4 * nestedExp(omega4, phi4 - chi4)
+    )
+)
