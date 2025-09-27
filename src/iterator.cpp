@@ -1,4 +1,7 @@
 #include "iterator.hpp"
+#include <vector>
+#include "token.hpp"
+#include <stdexcept>
 
 
 
@@ -6,20 +9,26 @@ TokenIterator::TokenIterator(const std::vector<Token> &arr)
     : array(arr) { }
 
 
-Token TokenIterator::previous() const {
-    errorIfOutOfBounds(-1, "previous");
+Token TokenIterator::lookBehind() const {
+    if(index == 0) {
+        throw std::runtime_error("Token iterator can't lookBehind() when at the first token.");
+    }
     return array[index - 1];
 }
 
 
 Token TokenIterator::lookAhead(const std::size_t distance) const {
-    errorIfOutOfBounds(distance - 1, "lookAhead");
+    if(index + (distance - 1) >= array.size()) {
+        return array.back();
+    }
     return array[index + (distance - 1)];
 }
 
 
 Token TokenIterator::next() {
-    errorIfOutOfBounds(0, "next");
+    if(isAtEnd()) {
+        return array.back();
+    }
     index++;
     return array[index - 1];
 }
@@ -30,10 +39,24 @@ bool TokenIterator::isAtEnd() {
 }
 
 
-void TokenIterator::errorIfOutOfBounds(const int indexOffset, const std::string &name) const {
-    std::size_t newIndex = index + indexOffset;
-    // Can't be below 0 because std::size_t is unsigned
-    if(newIndex >= array.size()) {
-        throw std::runtime_error("Token iterator out of bounds trying to get " + name);
+bool TokenIterator::match(Token::Type type, const std::string &value) {
+    if(check(type, value)) {
+        next();
+        return true;
     }
+    return false;
 }
+
+
+bool TokenIterator::check(Token::Type type, const std::string &value) {
+    if(isAtEnd()) {
+        return false;
+    }
+
+    const Token &token = lookAhead();
+    if(token.type != type || (!value.empty() && token.value != value)) {
+        return false;
+    }
+    return true;
+}
+

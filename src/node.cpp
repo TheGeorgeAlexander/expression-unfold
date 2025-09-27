@@ -1,5 +1,5 @@
 #include "node.hpp"
-#include "lexer.hpp"
+#include "token.hpp"
 #include <string>
 
 

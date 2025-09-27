@@ -1,6 +1,8 @@
 #include "parser.hpp"
 #include <vector>
-#include "lexer.hpp"
+#include "node.hpp"
+#include "token.hpp"
+#include <stdexcept>
 
 
 
@@ -9,23 +11,29 @@ Parser::Parser(const std::vector<Token> &tokens)
 
 
 Node Parser::parse() {
-    return parseExpression();
+    Node root = parseExpression();
+    consume(Token::Type::END_OF_INPUT);
+    return root;
+}
+
+
+Token Parser::consume(const Token::Type expectedType) {
+    Token consumed = iterator.next();
+    if(consumed.type != expectedType) {
+        throw std::runtime_error("Expected " + Token::typeString(expectedType) + " at " + Token::locationString(consumed) + " but got " + Token::typeString(consumed.type));
+    }
+    return consumed;
 }
 
 
 Node Parser::parseExpression() {
     Node expressionNode = parseTerm();
 
-    while(!iterator.isAtEnd()) {
-        Token lookAhead = iterator.lookAhead();
-        if(lookAhead.type == Token::Type::OPERATOR && (lookAhead.value == "+" || lookAhead.value == "-")) {
-            Node leftHandSide = expressionNode;
-            expressionNode = Node(iterator.next());
-            expressionNode.children.push_back(leftHandSide);
-            expressionNode.children.push_back(parseTerm());
-        } else {
-            break;
-        }
+    while(iterator.check(Token::Type::OPERATOR, "+") || iterator.check(Token::Type::OPERATOR, "-")) {
+        Node leftHandSide = expressionNode;
+        expressionNode = Node(iterator.next());
+        expressionNode.children.push_back(leftHandSide);
+        expressionNode.children.push_back(parseTerm());
     }
 
     return expressionNode;
@@ -35,16 +43,11 @@ Node Parser::parseExpression() {
 Node Parser::parseTerm() {
     Node termNode = parseFactor();
 
-    while(!iterator.isAtEnd()) {
-        Token lookAhead = iterator.lookAhead();
-        if(lookAhead.type == Token::Type::OPERATOR && (lookAhead.value == "*" || lookAhead.value == "/")) {
-            Node leftHandSide = termNode;
-            termNode = Node(iterator.next());
-            termNode.children.push_back(leftHandSide);
-            termNode.children.push_back(parseFactor());
-        } else {
-            break;
-        }
+    while(iterator.check(Token::Type::OPERATOR, "*") || iterator.check(Token::Type::OPERATOR, "/")) {
+        Node leftHandSide = termNode;
+        termNode = Node(iterator.next());
+        termNode.children.push_back(leftHandSide);
+        termNode.children.push_back(parseFactor());
     }
 
     return termNode;
@@ -52,20 +55,15 @@ Node Parser::parseTerm() {
 
 
 Node Parser::parseFactor() {
-    Token::Type lookAheadType = iterator.lookAhead().type;
-
     // An expression in brackets
-    if(lookAheadType == Token::Type::BRACKET_OPEN) {
-        iterator.next();
+    if(iterator.match(Token::Type::BRACKET_OPEN)) {
         Node expression = parseExpression();
-        if(iterator.next().type != Token::Type::BRACKET_CLOSE) {
-            throw std::runtime_error("Expected closing bracket at " + tokenLocString(iterator.previous()));
-        }
+        consume(Token::Type::BRACKET_CLOSE);
         return expression;
     }
 
     // A variable or function call
-    if(lookAheadType == Token::Type::IDENTIFIER) {
+    if(iterator.check(Token::Type::IDENTIFIER)) {
         if(iterator.lookAhead(2).type == Token::Type::BRACKET_OPEN) {
             return parseFunctionCall();
         } else {
@@ -74,11 +72,7 @@ Node Parser::parseFactor() {
     }
 
     // A number
-    if(lookAheadType == Token::Type::NUMBER) {
-        return Node(iterator.next());
-    }
-
-    throw std::runtime_error("Expected term at " + tokenLocString(iterator.next()));
+    return Node(consume(Token::Type::NUMBER));
 }
 
 
@@ -87,19 +81,10 @@ Node Parser::parseFunctionCall() {
     iterator.next(); // Bracket open
 
     functionNode.children.push_back(parseExpression());
-    while(iterator.lookAhead().type == Token::Type::COMMA) {
-        iterator.next();
+    while(iterator.match(Token::Type::COMMA)) {
         functionNode.children.push_back(parseExpression());
     }
-
-    if(iterator.next().type != Token::Type::BRACKET_CLOSE) {
-        throw std::runtime_error("Expected closing bracket at " + tokenLocString(iterator.previous()));
-    }
+    consume(Token::Type::BRACKET_CLOSE);
 
     return functionNode;
-}
-
-
-std::string Parser::tokenLocString(const Token token) {
-    return "line " + std::to_string(token.line) + ", column " + std::to_string(token.column);
 }

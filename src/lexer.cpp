@@ -1,14 +1,12 @@
 #include "lexer.hpp"
 #include <utility>
 #include <regex>
+#include "token.hpp"
+#include <string>
 #include <vector>
 #include <string_view>
 #include <iostream>
 
-
-
-Token::Token(Token::Type type, const std::string &value, std::size_t line, std::size_t column)
-    : type(type), value(value), line(line), column(column) { }
 
 
 std::pair<std::regex, Token::Type> createTokenDefinition(std::string const &regex, Token::Type const type) {
@@ -19,7 +17,7 @@ std::pair<std::regex, Token::Type> createTokenDefinition(std::string const &rege
 void tokenize(const std::string &text, std::vector<Token> &tokens) {
     std::pair<std::regex, Token::Type> TOKEN_DEFINITIONS[] = {
         createTokenDefinition(R"(\s+)",           Token::Type::WHITESPACE),
-        createTokenDefinition(R"([+\-*/])",        Token::Type::OPERATOR),
+        createTokenDefinition(R"([+\-*/])",       Token::Type::OPERATOR),
         createTokenDefinition(R"(\()",            Token::Type::BRACKET_OPEN),
         createTokenDefinition(R"(\))",            Token::Type::BRACKET_CLOSE),
         createTokenDefinition(R"(,)",             Token::Type::COMMA),
@@ -72,4 +70,6 @@ void tokenize(const std::string &text, std::vector<Token> &tokens) {
             throw std::runtime_error("Unknown token at line " + std::to_string(line) + ", column " + std::to_string(column));
         }
     }
+
+    tokens.emplace_back(Token::Type::END_OF_INPUT, "", line, column);
 }

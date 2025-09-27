@@ -1,6 +1,7 @@
-#include <iostream>
 #include <string>
-#include  <fstream>
+#include <fstream>
+#include <iostream>
+#include "token.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "node.hpp"
@@ -8,7 +9,7 @@
 
 
 
-std::string readFile(const std::string& filename) {
+std::string readFile(const std::string &filename) {
     std::ifstream file(filename);
     if (!file) {
         throw std::runtime_error("Could not open file: " + filename);

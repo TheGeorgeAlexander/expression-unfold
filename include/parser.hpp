@@ -1,8 +1,9 @@
 #pragma once
 
-#include "iterator.hpp"
-#include "lexer.hpp"
+#include <vector>
+#include "token.hpp"
 #include "node.hpp"
+#include "iterator.hpp"
 
 
 class Parser {
@@ -15,10 +16,10 @@ public:
 private:
     TokenIterator iterator;
 
+    Token consume(const Token::Type expectedType);
+
     Node parseExpression();
     Node parseTerm();
     Node parseFactor();
     Node parseFunctionCall();
-
-    std::string tokenLocString(const Token token);
 };
