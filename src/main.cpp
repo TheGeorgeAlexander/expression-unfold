@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
     if(argc == 1) {
         std::cout << "Expression: ";
         getline(std::cin, expression);
+        std::cout << "\n";
     } else if(argc == 2) {
         expression = readFile(std::string(argv[1]));
     } else {
@@ -43,6 +44,6 @@ int main(int argc, char *argv[]) {
 
     // Walk through the tree and output the code
     CodeGenerator printer;
-    printer.printCode(root);
+    printer.generateCode(root);
     return 0;
 }

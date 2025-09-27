@@ -7,19 +7,20 @@
 
 class CodeGenerator {
 public:
-    void printCode(const Node &root);
+    void generateCode(const Node &root);
 
     
 private:
-    int nextTemp = 0;
+    int nextTemp = 1;
     
     
-    std::string currentTemp() const;
-    std::string useNextTemp();
+    std::string currentTempName() const;
     
-    void printLine(const std::string &text) const;
+    void emitLine(const std::string &text) const;
+    std::string generateNodeCode(const Node &node);
+    void releaseTemp(const Node &node);
 
-    std::string printExpression(const Node &node, bool &usedTemp);
-    void printOperator(const Node &node);
-    void printFunctionCall(const Node &node);
+    void generateExpressionCode(const Node &node);
+    void generateOperatorCode(const Node &node);
+    void generateFunctionCallCode(const Node &node);
 };

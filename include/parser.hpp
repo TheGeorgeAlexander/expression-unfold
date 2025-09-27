@@ -20,6 +20,5 @@ private:
     Node parseFactor();
     Node parseFunctionCall();
 
-
     std::string tokenLocString(const Token token);
 };

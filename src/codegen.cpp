@@ -4,16 +4,16 @@
 
 
 
-void CodeGenerator::printCode(const Node &root) {
-    bool usedTemp;
-    std::string value = printExpression(root,usedTemp);
-    if(!usedTemp) {
-        printLine(value);
+void CodeGenerator::generateCode(const Node &root) {
+    if(root.children.empty()) {
+        emitLine(root.getValue());
+    } else {
+        generateExpressionCode(root);
     }
 }
 
 
-std::string CodeGenerator::currentTemp() const {
+std::string CodeGenerator::currentTempName() const {
     if(nextTemp == 1) {
         return "result";
     }
@@ -21,71 +21,65 @@ std::string CodeGenerator::currentTemp() const {
 }
 
 
-std::string CodeGenerator::useNextTemp() {
-    nextTemp++;
-    return currentTemp();
+void CodeGenerator::emitLine(const std::string &text) const {
+    std::cout << currentTempName() << " = " << text << "\n";
 }
 
 
-void CodeGenerator::printLine(const std::string &text) const {
-    std::cout << currentTemp() << " = " << text << "\n";
-}
-
-
-std::string CodeGenerator::printExpression(const Node &node, bool &usedTemp) {
+std::string CodeGenerator::generateNodeCode(const Node &node) {
     if(node.children.empty()) {
-        usedTemp = false;
         return node.getValue();
     }
-    usedTemp = true;
-    std::string name = useNextTemp();
 
+    generateExpressionCode(node);
+
+    std::string name = currentTempName();
+    nextTemp++;
+    return name;
+}
+
+
+void CodeGenerator::releaseTemp(const Node &node) {
+    if(!node.children.empty()) {
+        nextTemp--;
+    }
+}
+
+
+void CodeGenerator::generateExpressionCode(const Node &node) {
     switch(node.getType()) {
         case Token::Type::OPERATOR:
-            printOperator(node);
+            generateOperatorCode(node);
             break;
 
         case Token::Type::IDENTIFIER:
-            printFunctionCall(node);
+            generateFunctionCallCode(node);
             break;
             
         default:
             std::cout << "UNKNOWN EXPRESSION\n";
             break;
     }
-
-    return name;
 }
 
 
-void CodeGenerator::printOperator(const Node &node) {
-    bool usedTempForLeft, usedTempForRight;
+void CodeGenerator::generateOperatorCode(const Node &node) {
+    std::string leftHandSide = generateNodeCode(node.children[0]);
+    std::string rightHandSide = generateNodeCode(node.children[1]);
+    releaseTemp(node.children[0]);
+    releaseTemp(node.children[1]);
 
-    std::string leftHandSideName = printExpression(node.children[0], usedTempForLeft);
-    std::string rightHandSideName =  printExpression(node.children[1], usedTempForRight);
+    emitLine(leftHandSide + " " + node.getValue() + " " + rightHandSide);
 
-    if(usedTempForLeft) {
-        nextTemp--;
-    }
-    if(usedTempForRight) {
-        nextTemp--;
-    }
-
-    printLine(leftHandSideName + " " + node.getValue() + " " + rightHandSideName);
 }
 
 
-void CodeGenerator::printFunctionCall(const Node &node) {
+void CodeGenerator::generateFunctionCallCode(const Node &node) {
     std::string parameterTemps;
-    int numberOfTemps = 0;
+    int originalTemp = nextTemp;
     for(const Node &child : node.children) {
-        bool usedTemp;
-        parameterTemps += printExpression(child, usedTemp) + ", ";
-        if(usedTemp) {
-            numberOfTemps++;
-        }
+        parameterTemps += generateNodeCode(child) + ", ";
     }
-
-    nextTemp -= numberOfTemps;
-    printLine(node.getValue() + "(" + parameterTemps.substr(0, parameterTemps.length() - 2) + ")");
+    nextTemp = originalTemp;
+    emitLine(node.getValue() + "(" + parameterTemps.substr(0, parameterTemps.length() - 2) + ")");
 }

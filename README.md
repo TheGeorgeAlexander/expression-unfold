@@ -10,22 +10,22 @@ pow(min(a + b * c - d, max((x / 2) + sqrt(y), log(z + 1, 10))) + 3, abs((m * n) 
 
 **Output:**
 ```
-temp5 = b * c
-temp4 = a + temp5
-temp3 = temp4 - d
-temp6 = x / 2
-temp7 = sqrt(y)
-temp5 = temp6 + temp7
-temp7 = z + 1
-temp6 = log(temp7, 10)
-temp4 = max(temp5, temp6)
-temp2 = min(temp3, temp4)
-temp1 = temp2 + 3
-temp4 = m * n
-temp5 = p / q
-temp3 = temp4 - temp5
-temp2 = abs(temp3)
-result = pow(temp1, temp2)
+result = b * c
+result = a + result
+result = result - d
+temp1 = x / 2
+temp2 = sqrt(y)
+temp1 = temp1 + temp2
+temp2 = z + 1
+temp2 = log(temp2, 10)
+temp1 = max(temp1, temp2)
+result = min(result, temp1)
+result = result + 3
+temp1 = m * n
+temp2 = p / q
+temp1 = temp1 - temp2
+temp1 = abs(temp1)
+result = pow(result, temp1)
 ```
 
 ## Usage
@@ -57,4 +57,4 @@ Examples:
 * `pow(max(2, 5), min(3, 4))`
 * `randomFunc(1, thisIsAVar, 3, func(4))`
 
-> Note: Function are completely arbitrary, they are valid (sub-)expressions as long as they follow the `name(arg1, arg2, ...)` pattern.
+> Note: Functions are completely arbitrary, they are valid (sub-)expressions as long as they follow the `name(arg1, arg2, ...)` syntax.
